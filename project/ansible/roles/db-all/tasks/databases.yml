@@ -1,0 +1,25 @@
+---
+- name: src master
+  template:
+    src: my.cnf.active.j2
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+  when: inventory_hostname in groups["db-master"]
+  tags: scp congig to master
+
+- name: src slave
+  template:
+    src: my.cnf.passive.j2
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+  when: inventory_hostname in groups["db-slave"]
+  tags: scp config to slave
+  
+- name: Restart
+  service:
+    name=mysql
+    state=started
+  become: true
+
+- name: creating db 
+  mysql_db:
+    name: "{{ mysql_db }}"
+    state: present

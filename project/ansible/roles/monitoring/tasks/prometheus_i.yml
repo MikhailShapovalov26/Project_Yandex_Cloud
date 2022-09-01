@@ -1,0 +1,73 @@
+---
+- name: create prometheus system group
+  group:
+    name: "{{ prometheus_group }}"
+
+- name: create prometheus user
+  user:
+    name: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    system: yes
+    shell: "/sbin/nologin"
+    comment: "{{ prometheus_user }}  nologin User "
+    create_home: no
+    state: present 
+
+- name: install prometheus
+  unarchive:
+    src: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/{{ prometheus_release_name }}.tar.gz"
+    dest: "/tmp/"
+    remote_src: yes
+
+- name: Copy prometheus file to binary
+  copy:
+    src: "/tmp/prometheus-{{ prometheus_version }}.linux-amd64/prometheus"
+    dest: "/usr/local/bin/prometheus"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    remote_src: yes
+    mode: 0755
+
+- name: delete prometheus tmp folder
+  file:
+    path: '/tmp/prometheus-{{ prometheus_version }}.linux-amd64'
+    state: absent
+
+- name: create prometheus directories
+  file:
+    path: "{{ item }}"
+    state: directory 
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: 0755
+  with_items:
+    - "{{ prometheus_root_dir }}"
+    - "{{ prometheus_tsdb }}"
+
+
+- name: config file
+  template:
+    src: prometheus.yml.j2
+    dest: /etc/prometheus/prometheus.yml
+
+- name: copy systmed init file
+  template:
+    src: prometheus.service.j2
+    dest: /etc/systemd/system/prometheus.service
+  notify:
+    - restart prometheus
+
+- name: start prometheus service 
+  service:
+    name: prometheus
+    state: started
+    enabled: yes
+
+- name: Check if prometheus is accessible
+  uri: 
+    url: http://localhost:9090
+    method: GET 
+    status_code: 200 
+
+
+# #      - targets: ["{{ groups["cluster"] | join(':9100", "')}}:9100"]

@@ -1,0 +1,42 @@
+---
+- name: Check replica replacation status
+  mysql_replication: 
+    mode: getreplica
+    login_unix_socket: /run/mysqld/mysqld.sock
+  ignore_errors: true
+  register: replica
+  when: inventory_hostname in groups["db-slave"]
+
+
+- name: Check primary replication status
+  mysql_replication: 
+    mode: getprimary
+    login_unix_socket: /run/mysqld/mysqld.sock
+  delegate_to: "{{ mysql_replication_primary }}"
+  register: primary
+  when:
+    - (replica.Is_Replica is defined and not replica.Is_Replica) or (replica.Is_Replica is not defined and replica is failed)
+    - inventory_hostname in groups["db-slave"]
+    - mysql_replication_primary != ''
+
+- name: configure Mysql slave process
+  mysql_replication:
+    mode: changeprimary
+    primary_host: "{{ mysql_replication_primary }}"
+    primary_user: "{{ mysql_replication_user.name }}"
+    primary_password: "{{ mysql_replication_user.password }}"
+    primary_log_file: "{{ primary.File }}"
+    primary_log_pos: "{{ primary.Position }}"
+    login_unix_socket: /run/mysqld/mysqld.sock
+  ignore_errors: true
+  when: 
+    - inventory_hostname in groups["db-slave"]
+    - (replica.Is_Replica is defined and not replica.Is_Replica) or (replica.Is_Replica is not defined and replica is failed)
+  
+- name: start replication
+  mysql_replication:
+    mode: startreplica
+  when:
+     - inventory_hostname in groups["db-slave"]
+     - (replica.Is_Replica is defined and not replica.Is_Replica) or (replica.Is_Replica is not defined and replica is failed)
+    #  - (replica.Is_Replica is defined and not replica.Is_Replica) or (replica.Is_Replica is not defined and replica is failed) or (replica.Slave_IO_Running != 'Yes') or (replica.Slave_SQL_Running != 'Yes')

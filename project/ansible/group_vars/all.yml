@@ -1,0 +1,39 @@
+#Wordpress packer
+php_modules: [ 'php7.4-fpm', 'php7.4-cli', 'php7.4-mysql','ntp','wget','python','curl','git','openssl','python3-pymysql','nginx' ]
+
+#Gitlab vars
+gitlab_pre_install: ['curl', 'apt-transport-https', 'openssh-server', 'ca-certificates', 'tzdata', 'perl', 'postfix']
+gitlab_packet: "https://packages.gitlab.com/gitlab/gitlab-ce/packages/ubuntu/bionic/gitlab-ce_13.2.1-ce.0_amd64.deb/download.deb"
+open_file: "gitlab-ce"
+common_project_dir: "/mnt/project"
+
+#runner
+gitlab_runner_package_name: "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh"
+gitlab_runner_repository_file: "/etc/apt/sources.list.d/runner_gitlab-runner.list"
+gitlab_url: "http://gitlab.msh762.ru"
+token: "wordpress" #initial_root_password
+gitlab_runner_executor: docker
+gitlab_runner_docker_image: "ubuntu:latest"
+
+#MySQL Settings
+mysql_root_password: "wordpress"
+mysql_db: "wordpress"
+backupdir: "/tmp"
+mysql_replication_primary: "db-master-01"
+mysql_replication_replica: "db-slave-01"
+mysql_replication_role_primary: false
+mysql_replication_role_replica: false
+lof_file: "default"
+lof_pos: "default"
+mysql_replication_user:
+  name: replacation 
+  password: wordpress
+mysql_user: 
+ name: wordpress
+ password: wordpress
+
+
+#HTTP Settings
+http_host: "msh762"
+http_conf: "msh762.conf"
+http_port: "80"

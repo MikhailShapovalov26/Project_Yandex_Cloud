@@ -1,0 +1,63 @@
+---
+# - hosts: gitlab
+#   pre_tasks:
+#    - name: "Update Package Cache (apt/Ubuntu)"
+#      become: yes
+#      become_user: root
+#      tags: always
+#      apt:
+#        allow_unauthenticated: yes
+#        update_cache: yes
+#        autoremove: yes
+#        autoclean: yes
+#        upgrade: yes
+#      changed_when: false
+#      when: ansible_distribution == "Ubuntu"
+
+# - name: inastalling nginx and proxy
+#   hosts: nginx
+#   become: yes
+#   become_user: root
+#   remote_user: ubuntu
+  # roles:
+  #  - {"role": nginx-installation, "vars_file": "group_vars/all.yml"}
+
+# - name: dowland and install wordpress
+#   hosts: wordpress
+#   become: yes
+#   become_user: root
+#   remote_user: ubuntu
+#   roles:
+#    - {"role": wordpress-dowland, "vars_file": "group_vars/all.yml"}
+
+# - name: install mysql 
+#   hosts: db-all
+#   become: yes
+#   become_user: root
+#   remote_user: ubuntu
+#   roles:
+#    - {"role": db-all, "vars_file": "group_vars/all.yml"}
+
+# - name: install gitlab 
+#   hosts: proxy
+#   become: yes
+#   become_user: root
+#   remote_user: ubuntu
+#   roles:
+#     - {"role": gitlab, "vars_file": "group_vars/all.yml"}
+
+# - name: install runner 
+#   hosts: runner
+#   become: yes
+#   become_user: root
+#   remote_user: ubuntu
+#   roles:
+#     - {"role": runner, "vars_file": "group_vars/all.yml"}
+
+- name: install monitoring Prometheus Grafana
+  hosts: nginx
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  roles:
+    - {"role": monitoring, "vars_file": "group_vars/all.yml"}

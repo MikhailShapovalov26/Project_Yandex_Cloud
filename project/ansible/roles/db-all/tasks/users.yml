@@ -1,0 +1,35 @@
+---
+- name: creating mysql user  #Создание бд и пароля назначение привилегий ansible-galaxy collection install community.mysql
+  mysql_user:
+    name: "{{ mysql_user.name }}"
+    host: "{{ item }}"
+    password: "{{ mysql_user.password }}"
+    priv: "{{ mysql_user.priv | default('*.*:ALL,GRANT') }}"
+    state: present
+  with_items: 
+    - localhost
+    - "%"
+
+- name: creating mysql user replication  #Создание бд и пароля назначение привилегий slave
+  mysql_user:
+    name: '{{ mysql_replication_user.name }}'
+    password: '{{ mysql_replication_user.password }}'
+    priv: "{{ mysql_replication_user.priv | default('*.*:REPLICATION SLAVE,REPLICATION CLIENT') }}"
+    host: "{{ item }}"
+    state: present
+  with_items:
+    - localhost
+    - "%"
+  delegate_to: "{{ mysql_replication_primary }}"
+  when:
+    - mysql_replication_user
+    - mysql_replication_primary != ''
+
+# - name: mysql replacation user
+#   mysql_replication_user:
+#     name: '{{ mysql_replacation_user.name }}'
+#     host: 192.186.120.%
+#     password: '{{ mysql_replacation_user.password }}'
+#   mysql_replication_primary: "{{ mysql_replication_primary }}"
+#   mysql_replication_role_primary: true
+#   mysql_replication_role_replica: true

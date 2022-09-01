@@ -1,0 +1,7 @@
+---
+# install ansible-galaxy collection install community.mysql
+# - include_tasks: install.yml # install mysql server and packer
+# - include_tasks: databases.yml #create mysql databases
+# - include_tasks: users.yml # creating root-user databases
+
+- include_tasks: replication.yml

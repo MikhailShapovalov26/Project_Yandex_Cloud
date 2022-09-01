@@ -1,0 +1,18 @@
+---
+- include: node_exporter.yml
+  become: true
+  when: ansible_distribution == "Ubuntu"
+  tags:
+   - install_node_exporter_in_vm
+
+- include: prometheus_i.yml
+  become: true
+  when: ansible_distribution == "Ubuntu"
+  tags:
+   - install_prometheus
+
+- include: grafana.yml
+  become: true
+  when: ansible_distribution == "Ubuntu"
+  tags:
+   - install_grafana

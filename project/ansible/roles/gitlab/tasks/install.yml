@@ -1,0 +1,25 @@
+---
+- name: Installing Gitlab
+  apt: >
+    name: "{{ item }}"
+    state: present
+    update_cache=yes
+  loop: "{{ gitlab_pre_install }}"
+  tags: [ gitlab ]
+
+- name: create project Gitlab direcctory
+  file: 
+    state=directory
+    path={{ common_project_dir }}
+    mode=0644
+
+- name: Dowload Gitlab package
+  get_url:
+    url="{{ gitlab_packet }}"
+    dest="{{ common_project_dir }}/{{ open_file }}.deb" 
+    mode=0644
+
+- name: Install gitlab deb package
+  apt:
+    deb: "{{ common_project_dir }}/{{ open_file }}.deb"
+  become: true

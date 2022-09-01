@@ -1,0 +1,22 @@
+---
+ - name: Delete old package
+   apt:
+     name: "{{ item }}"
+     state: absent
+   loop:
+    - mysql-client
+    - python3-mysqldb
+    - libmysqlclient-dev
+    - mysql-server
+
+ - name: install mysql
+   apt:
+    name: "{{ item }}"
+    update_cache: yes
+    state: present
+   loop:
+    - mysql-client
+    - python3-mysqldb
+    - libmysqlclient-dev
+    - mysql-server
+   become: true

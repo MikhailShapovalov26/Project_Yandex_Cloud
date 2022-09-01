@@ -1,0 +1,13 @@
+[Unit]
+Description=NodeExporter
+
+[Service]
+TimeoutStartSec=0
+User={{ node_user }}
+Group={{ node_group }}
+Restart=on-failure
+Type=simple
+ExecStart={{ node_exporter_bin_path }}
+
+[Install]
+WantedBy=multi-user.target

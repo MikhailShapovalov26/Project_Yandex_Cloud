@@ -1,0 +1,32 @@
+[nginx]
+proxy ansible_host=51.250.90.19 ansible_user=ubuntu 
+[wordpress]
+wordpress ansible_host=192.168.120.11 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa.pub
+[wordpress:vars]
+ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p -q ubuntu@51.250.90.19"'
+[gitlab]
+gitlab ansible_host=192.168.120.12 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa.pub
+[gitlab:vars]
+ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p -q ubuntu@51.250.90.19"'
+[db01]
+gitlab ansible_host=192.168.120.20 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa.pub
+[db01:vars]
+ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p -q ubuntu@51.250.90.19"'
+[db02]
+gitlab ansible_host=192.168.120.20 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa.pub
+[db02:vars]
+ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p -q ubuntu@51.250.90.19"'
+
+[nginx]
+proxy ansible_host=51.250.13.124 ansible_user=ubuntu 
+[db-master]
+db-master-01 ansible_host=192.168.120.20 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa.pub
+[db-master:vars]
+ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand="ssh -W %h:%p -q ubuntu@51.250.13.124"'
+[db-slave]
+db-slave-01 ansible_host=192.168.120.22 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa.pub
+[db-slave:vars]
+ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand="ssh -W %h:%p -q ubuntu@51.250.13.124"'
+[db-all:children]
+db-master
+db-slave

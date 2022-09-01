@@ -1,0 +1,58 @@
+---
+  - name: Creating node_exporter user group
+    group: name="{{ node_user }}"
+    become: true
+
+  - name: Creatinf node-exporter user
+    user:
+      name: "{{ node_user }}"
+      group: "{{ node_group }}"
+      system: yes
+      shell: "/sbin/nologin"
+      comment: "{{ node_user }} nologin User"
+      create_home: "no"
+      state: present 
+
+  - name: Dowload node exprorter binary to local folder
+    unarchive:
+      src: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+      dest: "/tmp/"
+      remote_src: yes
+
+  # - name: Update node_exporter binary
+  #   become: false
+  #   unarchive:
+  #     src: "/tmp/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+  #     dest: "/tmp"
+  #     creates: "/tmp/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter"
+
+  - name: Move node-exporter
+    copy:
+      src: "/tmp/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter"
+      dest:  "{{ node_exporter_bin_path }}"
+      owner: "{{ node_user }}"
+      group: "{{ node_group }}"
+      mode: 0755
+      remote_src: yes
+
+  - name: delete node exporter tmp folder 
+    file:
+      path: /tmp/node_exporter-{{ node_exporter_version }}.linux-amd64"
+      state: absent
+
+  - name: Copy the node_exporter systemd unit
+    template:
+      src: node_exporter.service.j2
+      dest: /etc/systemd/system/node_exporter.service
+
+  - name:  node_exporter is running
+    service: 
+      name: node_exporter 
+      state: started
+      enabled: true
+
+  - name: Chef if node exporter emits metrics
+    uri: 
+      url: http://127.0.0.1:9100/metrics
+      method: GET 
+      status_code: 200

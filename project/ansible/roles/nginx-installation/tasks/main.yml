@@ -1,0 +1,36 @@
+---
+ - name: Delete nginx proxy
+   apt: >
+    name={{ item }}
+    state=absent
+    update_cache=yes
+   with_items:
+    - nginx
+
+ - name: installing nginx proxy
+   apt: >
+    name={{ item }}
+    state=present
+    update_cache=yes
+   with_items:
+    - nginx
+
+ - name: Delete cong nginx 
+   shell: "rm -rf /etc/nginx/sites-available/*"
+   become: true
+
+ - name: Update nginx confs for wordpress
+   template: "src=../templates/default dest=/etc/nginx/sites-available/ owner=www-data group=www-data mode=0644"
+   become: true
+
+ - name: symlink default catchall
+   file:
+     src: "/etc/nginx/sites-available/default"
+     dest: "/etc/nginx/sites-enabled/default"
+     state: link
+
+ - name: enable nginx daemon
+   systemd:
+     name: nginx
+     state: started
+     enabled: yes
