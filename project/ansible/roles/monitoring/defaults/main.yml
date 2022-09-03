@@ -16,3 +16,18 @@ prometheus_tsdb: /data/prometheus
 prometheus_user: "prometheus"
 prometheus_group: "prometheus"
 exec_command: "/usr/local/bin/prometheus --config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/data/prometheus --storage.tsdb.retention=2d"
+
+#Графана
+grafana_admin_password: wordpress
+
+    # - grafana_data:/var/lib/grafana
+    #   - ./grafana/provisioning:/etc/grafana/provisioning
+
+#alter manager
+alertbinary: ['git', 'go', 'make']
+exec_command_alter: "alertmanager --config.file=/etc/alertmanager/alertmanager.yml"
+serviceNamealter: "alertmanager"
+alertmanager_version: '0.24.0'
+userId: "alertmanager"
+groupId: "alertmanager"
+versian_go: '1.19'

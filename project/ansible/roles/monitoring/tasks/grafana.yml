@@ -1,1 +1,60 @@
 ---
+- name: install gpg
+  apt:
+    name: gnupg, software-properties-common
+    state: present 
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: add gpg hey
+  apt_key:
+    url: "https://packages.grafana.com/gpg.key"
+    validate_certs: no
+  
+- name: add repository
+  apt_repository:
+    repo: "deb https://packages.grafana.com/oss/deb stable main"  
+    state: present 
+    validate_certs: no
+
+- name: install grafana 
+  apt: 
+    name: grafana
+    state: latest
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: copy datasources 
+  template:
+    src: sample.yml.j2
+    dest: /etc/grafana/provisioning/datasources/sample.yaml
+
+- name: copy dashboards
+  template:
+    src: sample_v2.yml.j2
+    dest: /etc/grafana/provisioning/dashboards/sample.yaml
+
+- name: start service grafana-server
+  systemd:
+    name: grafana-server
+    state: started
+    enabled: yes
+
+- name: wait for service update_cache
+  uri: 
+    url: "http://127.0.0.1:3000"
+    status_code: 200 
+  register: _result
+  until: _result.status ==200
+  retries: 120
+  delay: 1
+
+- name: add panel grafana 
+  shell: "grafana-cli plugins install grafana-piechart-panel" 
+
+- name: change admin password for grafana gui
+  shell: "grafana-cli admin reset-admin-password {{ grafana_admin_password }}" 
+  register: _command_admin
+  changed_when: _command_admin.rc !=0
+
+    
