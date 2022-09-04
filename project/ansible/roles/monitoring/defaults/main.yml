@@ -24,8 +24,9 @@ grafana_admin_password: wordpress
     #   - ./grafana/provisioning:/etc/grafana/provisioning
 
 #alter manager
-alertbinary: ['git', 'go', 'make']
-exec_command_alter: "alertmanager --config.file=/etc/alertmanager/alertmanager.yml"
+prometheus_alertmanager_config_file: /etc/alertmanager/alertmanager.yml
+prometheus_alertmanager_storage_path: /etc/systemd/system/
+exec_command_alter: "alertmanager --config.file=/etc/alertmanager/alertmanager.yml --storage.path=/etc/systemd/system/"
 serviceNamealter: "alertmanager"
 alertmanager_version: '0.24.0'
 userId: "alertmanager"

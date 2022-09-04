@@ -1,0 +1,17 @@
+---
+ - name: Delete nginx proxy
+   apt: 
+    name: nginx
+    state: '{{ item }}'
+    update_cache: yes
+   with_items:
+    - absent
+    - present
+
+#  - name: installing nginx proxy
+#    apt: >
+#     name={{ item }}
+#     state=present
+#     update_cache=yes
+#    with_items:
+#     - nginx

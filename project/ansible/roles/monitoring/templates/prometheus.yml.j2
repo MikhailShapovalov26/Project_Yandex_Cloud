@@ -1,19 +1,20 @@
-#
-# {{ ansible_managed }}
-#
+alerting:
+  alertmanagers:
+    - static_configs:
+      - targets: ['localhost:9093']
 
-global:
-  scrape_interval: 15s
-  evaluation_interval: 15s
+rule_files:
+  - rules.yml
 
-
+# A list of scrape configurations.
 scrape_configs:
-  - job_name: 'prometheus_metrics'
-    scrape_interval: 5s
-    static_configs:
-      - targets: ['localhost:9090']
   - job_name: "node_exporter"
     scrape_interval: 5s
     static_configs:
-       - targets: ['localhost:9100']
-
+       - targets: 
+          - localhost:9100
+          - db01-msh762:9100
+          - proxy-msh762:9100
+          - msh762:9100
+          - gitlab-msh762:9100
+          - runner-msh762:9100 

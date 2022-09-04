@@ -1,16 +1,14 @@
-{{ ansible_managed | comment }}
-global:
-  resolve_timeout: 5m
 
+global:
 route:
   group_by: ['alertname']
   group_wait: 10s
   group_interval: 10s
   repeat_interval: 1h
-inhibit_rules:
-  - source_match:
-      severity: 'critical'
-    target_match:
-      severity: 'warning'
-    equal: ['alertname', 'dev', 'instance']
+  routes:
+    - matchers:
+        - severity="critical"
+  inhibit_rules:
+    target_match: [severity="warning"]
+    equal: [alertname, service , instance]
 

@@ -29,10 +29,15 @@
     src: sample.yml.j2
     dest: /etc/grafana/provisioning/datasources/sample.yaml
 
-- name: copy dashboards
+- name: copy yml confi dasbord
   template:
     src: sample_v2.yml.j2
-    dest: /etc/grafana/provisioning/dashboards/sample.yaml
+    dest: /etc/grafana/provisioning/dashboards/sample.yml
+
+- name: start service grafana-server
+  get_url:
+    url: https://grafana.com/api/dashboards/5955/revisions/1/download
+    dest: /etc/grafana/provisioning/dashboards/
 
 - name: start service grafana-server
   systemd:

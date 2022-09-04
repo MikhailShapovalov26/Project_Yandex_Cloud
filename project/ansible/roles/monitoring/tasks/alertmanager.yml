@@ -13,7 +13,7 @@
 #     group: "{{ groupId }}"
 #     createhome: false
 
-# - name: creating alertmanager and amtool config directories
+# - name: creating alertmanager config directories
 #   file:
 #     path: "{{ item }}"
 #     state: directory
@@ -22,15 +22,6 @@
 #     mode: 0770
 #   with_items: 
 #     - "/etc/alertmanager"
-#     - "/etc/amtool"
-
-# - name: create alermanager data directory 
-#   file:
-#     path: "/var/lib/alertmanager"
-#     state: directory
-#     owner: "{{ userId }}"
-#     group: "{{ groupId }}"
-#     mode: 0755
 
 # - name: Dowlanding alertmanager binary files
 #   unarchive:
@@ -38,19 +29,16 @@
 #     dest: "/tmp"
 #     remote_src: yes
 
-  
-
-# - name: Copy alertmanager cpmpressed file
-#   copy:
-#     src: "/tmp/alertmanager-{{alertmanager_version}}.linux-amd64/{{ item }}"
-#     dest: "/etc/{{ item }}"
-#     mode: 0755
-#     owner: "{{ userId }}"
-#     group: "{{ groupId }}"
-#     remote_src: yes
-#   with_items:
-#     - alertmanager
-#     - amtool
+- name: Copy alertmanager cpmpressed file
+  copy:
+    src: "/tmp/alertmanager-{{ alertmanager_version }}.linux-amd64/{{ item }}"
+    dest: "/usr/local/bin/"
+    mode: 0755
+    owner: "{{ userId }}"
+    group: "{{ groupId }}"
+    remote_src: yes
+  with_items:
+    - alertmanager
 
 - name: creating alertmanager SystemD unit 
   template:
@@ -59,7 +47,6 @@
     owner: "{{ userId }}"
     group: "{{ groupId }}"
     mode: 0644
-  notify: restart alertmanager
 
 - name: copying alertmanager.yml file
   template:
@@ -67,7 +54,9 @@
     dest: /etc/alertmanager/alertmanager.yml
     owner: "{{ userId }}"
     group: "{{ groupId }}"
-    mode: 0740
-  notify: 
-    - reload alertmanager
-  
+    mode: 0755
+
+- name: start alertmanager
+  service:
+    name: alertmanager
+    state: started

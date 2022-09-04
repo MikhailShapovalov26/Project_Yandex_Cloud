@@ -50,6 +50,11 @@
     src: prometheus.yml.j2
     dest: /etc/prometheus/prometheus.yml
 
+- name: config file rules
+  template:
+    src: rules.yml.j2
+    dest: /etc/prometheus/rules.yml
+
 - name: copy systmed init file
   template:
     src: prometheus.service.j2
