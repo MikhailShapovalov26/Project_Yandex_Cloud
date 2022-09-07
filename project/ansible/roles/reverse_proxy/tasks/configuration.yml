@@ -1,4 +1,8 @@
 ---
+- name: delete config nginx
+  shell: rm /etc/nginx/sites-available/default
+  become: true
+
 - name: Update nginx reverce proxy 
   template: 
     src: default

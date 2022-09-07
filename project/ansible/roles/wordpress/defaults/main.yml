@@ -1,0 +1,7 @@
+php_modules: [ 'php7.4','php7.4-fpm', 'php7.4-cli', 'php7.4-mysql','php7.4-gd']
+nginx_user: www-data
+nginx_group: www-data
+http_host: msh762.ru
+nginx: nginx
+wordpress_user: wordpress
+wordpress_group: wordpress

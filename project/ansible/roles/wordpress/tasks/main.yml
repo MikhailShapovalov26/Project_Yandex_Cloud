@@ -1,0 +1,17 @@
+---
+# - include: install.yml
+#   become: true
+#   when: ansible_distribution == "Ubuntu"
+#   tags:
+#    - install_nginx
+
+- include: configuration.yml
+  become: true
+  when: ansible_distribution == "Ubuntu"
+  tags:
+   - install_nginx
+
+- include: wordpress_install.yml
+  when: ansible_distribution == "Ubuntu"
+  tags:
+   - install_wordpress

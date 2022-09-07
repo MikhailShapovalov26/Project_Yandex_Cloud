@@ -1,5 +1,5 @@
 #Wordpress packer
-php_modules: [ 'php7.4-fpm', 'php7.4-cli', 'php7.4-mysql','ntp','wget','python','curl','git','openssl','python3-pymysql','nginx' ]
+
 
 #Gitlab vars
 gitlab_pre_install: ['curl', 'apt-transport-https', 'openssh-server', 'ca-certificates', 'tzdata', 'perl', 'postfix']
