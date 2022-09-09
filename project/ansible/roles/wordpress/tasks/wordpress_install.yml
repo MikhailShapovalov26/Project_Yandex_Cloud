@@ -1,61 +1,44 @@
 ---
-- name: create wordpress user
-  user:
-    name: domain
-    group: "{{ wordpress_group }}"
-    system: yes
-    shell: "/sbin/nologin"
-    create_home: no
-    state: present 
+# - name: Create document root
+#   file:
+#     path: "/var/www/{{ http_host }}"
+#     state: directory
+#     owner: '{{ nginx_user }}'
+#     group: '{{ nginx_group }}'
+#     mode: '0755'
 
-- name: Create document root
-  file:
-    path: "/var/www/{{ http_host }}"
-    state: directory
-    owner: domain
-    group: '{{ nginx_group }}'
-    mode: '0755'
-
-- name: Dowland and unpack latest wordpress
-  unarchive:
-    src: https://wordpress.org/latest.tar.gz
-    dest: "/var/www/{{ http_host }}"
-    remote_src: yes
-    creates: "/var/www/{{ http_host }}/wordpress"
+# - name: Dowland and unpack latest wordpress
+#   unarchive:
+#     src: https://wordpress.org/latest.tar.gz
+#     dest: "/var/www/{{ http_host }}"
+#     remote_src: yes
+#     creates: "/var/www/{{ http_host }}/wordpress"
   
-- name: Set
-  file:
-    path: "/var/www/{{ http_host }}"
-    state: directory
-    recurse: yes
-    owner: '{{ nginx_user }}'
-    group: '{{ nginx_group }}'
-    mode: 0640
-
-- name: Set
-  file:
-    path: "/var/run/php7.4-fpm-wordpress-site.sock"
-    state: file
-    group: '{{ nginx_group }}'
-    mode: 0640
-  become: true
+# - name: Set
+#   file:
+#     path: "/var/www/{{ http_host }}"
+#     state: directory
+#     recurse: yes
+#     owner: '{{ nginx_user }}'
+#     group: '{{ nginx_group }}'
+#     mode: 0640
 
 - name: Update php7.4-fpm confs
   template: 
      src: www.conf
      dest: /etc/php/7.4/fpm/pool.d/www.conf
-    #  owner: '{{ nginx_user }}'
-    #  group: '{{ nginx_group }}'
-    #  mode: 0644
+     owner: '{{ nginx_user }}'
+     group: '{{ nginx_group }}'
+     mode: 0644
   become: true
 
 - name: Update nginx confs for wordpress
   template: 
      src: default 
      dest: /etc/nginx/sites-available/default 
-    #  owner: '{{ nginx_user }}'
-    #  group: '{{ nginx_group }}'
-    #  mode: 0644
+     owner: '{{ nginx_user }}'
+     group: '{{ nginx_group }}'
+     mode: 0644
   become: true
 
 - name: symlink default catchall
@@ -69,6 +52,7 @@
     name: php7.4-fpm
     state: restarted
     enabled: yes
+  become: true
 
 - name: enable nginx daemon
   systemd:
