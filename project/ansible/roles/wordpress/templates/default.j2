@@ -1,0 +1,51 @@
+server {
+        listen 80;
+        server_name www.msh762.ru msh762.ru;
+        root /var/www/msh762/wordpress;
+        index index.php;
+
+        location / {
+                try_files $uri $uri/ /index.php?q=$uri&$args;
+        }
+
+        location ~ ^/wp-json/ {
+           rewrite ^/wp-json/(.*?)$ /?rest_route=/$1 last;
+        }
+
+        location ~* /wp-sitemap.*\.xml {
+           try_files $uri $uri/ /index.php$is_args$args;
+        }
+
+        error_page 404 /404.html;
+        error_page 500 502 503 504 /50x.html;
+
+        client_max_body_size 20M;
+
+        location = /50x.html {
+            root /usr/share/nginx/html;
+        }
+
+        location ~ /\.ht {
+            access_log off;
+            log_not_found off;
+            deny all;
+        }
+
+          location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+                expires max;
+                log_not_found off;
+        }
+        
+        location ~ \.php$ {
+               fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+               fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+               include fastcgi_params;
+               include snippets/fastcgi-php.conf;
+               add_header X-Content-Type-Options nosniff;
+               add_header X-XSS-Protection "1; mode=block";
+               add_header X-Permitted-Cross-Domain-Policies none;
+               add_header X-Frame-Options "SAMEORIGIN";
+        }
+}
+
+

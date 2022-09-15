@@ -1,7 +1,7 @@
 ---
 - name: Update nginx reverce proxy 
   template: 
-    src: default
+    src: default.j2
     dest: /etc/nginx/sites-available/default
     owner: '{{ nginx_user }}'
     group: '{{ nginx_group }}'

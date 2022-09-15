@@ -1,41 +1,31 @@
 ---
-# - name: Create document root
-#   file:
-#     path: "/var/www/{{ http_host }}"
-#     state: directory
-#     owner: '{{ nginx_user }}'
-#     group: '{{ nginx_group }}'
-#     mode: '0755'
+- name: Create document root
+  file:
+    path: "/var/www/{{ http_host }}"
+    state: directory
+    owner: '{{ nginx_user }}'
+    group: '{{ nginx_group }}'
+    mode: '0755'
 
-# - name: Dowland and unpack latest wordpress
-#   unarchive:
-#     src: https://wordpress.org/latest.tar.gz
-#     dest: "/var/www/{{ http_host }}"
-#     remote_src: yes
-#     creates: "/var/www/{{ http_host }}/wordpress"
+- name: Dowland and unpack latest wordpress
+  unarchive:
+    src: https://wordpress.org/latest.tar.gz
+    dest: "/var/www/{{ http_host }}"
+    remote_src: yes
+    creates: "/var/www/{{ http_host }}/wordpress"
   
-# - name: Set
-#   file:
-#     path: "/var/www/{{ http_host }}"
-#     state: directory
-#     recurse: yes
-#     owner: '{{ nginx_user }}'
-#     group: '{{ nginx_group }}'
-#     mode: 0640
+- name: Set
+  file:
+    path: "/var/www/{{ http_host }}"
+    state: directory
+    recurse: yes
+    owner: '{{ nginx_user }}'
+    group: '{{ nginx_group }}'
 
-- name: Update php7.4-fpm confs
+- name: Update wp_conf file
   template: 
-     src: www.conf
-     dest: /etc/php/7.4/fpm/pool.d/www.conf
-     owner: '{{ nginx_user }}'
-     group: '{{ nginx_group }}'
-     mode: 0644
-  become: true
-
-- name: Update nginx confs for wordpress
-  template: 
-     src: default 
-     dest: /etc/nginx/sites-available/default 
+     src: wp-config.php.j2
+     dest: /var/www/{{ http_host }}/wordpress/wp-config.php
      owner: '{{ nginx_user }}'
      group: '{{ nginx_group }}'
      mode: 0644

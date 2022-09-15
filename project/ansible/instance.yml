@@ -14,6 +14,14 @@
 #      changed_when: false
 #      when: ansible_distribution == "Ubuntu"
 
+- name: install mysql 
+  hosts: db-all
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  roles:
+   - {"role": db-all, "vars_file": "group_vars/all.yml"}
+
 # - name: inastalling nginx in reverce proxy 
 #   hosts: nginx
 #   become: yes
@@ -22,21 +30,14 @@
 #   roles:
 #    - {"role": reverse_proxy, "vars_file": "group_vars/all.yml"}
 
-- name: dowland and install wordpress
-  hosts: wordpress
-  become: yes
-  become_user: root
-  remote_user: ubuntu
-  roles:
-   - {"role": wordpress, "vars_file": "group_vars/all.yml"}
-
-# - name: install mysql 
-#   hosts: db-all
+# - name: dowland and install wordpress
+#   hosts: wordpress
 #   become: yes
 #   become_user: root
 #   remote_user: ubuntu
 #   roles:
-#    - {"role": db-all, "vars_file": "group_vars/all.yml"}
+#    - {"role": wordpress, "vars_file": "group_vars/all.yml"}
+
 
 # - name: install gitlab 
 #   hosts: proxy

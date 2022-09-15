@@ -24,12 +24,3 @@
   when:
     - mysql_replication_user
     - mysql_replication_primary != ''
-
-# - name: mysql replacation user
-#   mysql_replication_user:
-#     name: '{{ mysql_replacation_user.name }}'
-#     host: 192.186.120.%
-#     password: '{{ mysql_replacation_user.password }}'
-#   mysql_replication_primary: "{{ mysql_replication_primary }}"
-#   mysql_replication_role_primary: true
-#   mysql_replication_role_replica: true
