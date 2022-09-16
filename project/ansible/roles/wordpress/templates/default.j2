@@ -1,7 +1,7 @@
 server {
         listen 80;
         server_name www.msh762.ru msh762.ru;
-        root /var/www/msh762/wordpress;
+        root /var/www/{{ http_host }}/wordpress;
         index index.php;
 
         location / {

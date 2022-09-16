@@ -1,0 +1,15 @@
+---
+- name: installing cerbot packet
+  apt:
+    name: '{{ item }}'
+    state: present
+    update_cache: yes
+  with_items:
+     - certbot
+     - python3-certbot-nginx
+
+# - name: Dowland and install cert
+#   shell: >
+#     certbot --nginx --agree-tos 
+#     --redirect --hsts --staple-ocsp --test-cert --non-interactive
+#     --email {{ email_host }} -d {{ http_host }},www.{{ http_host }}

@@ -5,11 +5,23 @@
   tags:
    - install_nginx
 
+- include: node_exporter.yml
+  become: true
+  when: ansible_distribution == "Ubuntu"
+  tags:
+   - install_node_exporter
+
 - include: configuration.yml
   become: true
   when: ansible_distribution == "Ubuntu"
   tags:
    - install_nginx
+
+- include: cerbot.yml
+  become: true
+  when: ansible_distribution == "Ubuntu"
+  tags:
+   - install_cerbot
 
 - name: resrat nginx
   service:

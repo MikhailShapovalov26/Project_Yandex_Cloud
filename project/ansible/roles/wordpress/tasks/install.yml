@@ -13,3 +13,9 @@
     name: '{{ php_modules }}'
     state: present
     update_cache: yes
+
+- name: installing tools
+  apt:
+    name: 'mysql-client'
+    state: present
+    update_cache: yes

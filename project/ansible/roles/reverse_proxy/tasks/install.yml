@@ -8,10 +8,3 @@
     - absent
     - present
 
-#  - name: installing nginx proxy
-#    apt: >
-#     name={{ item }}
-#     state=present
-#     update_cache=yes
-#    with_items:
-#     - nginx
