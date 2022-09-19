@@ -17,7 +17,7 @@
   tags:
    - install_nginx
 
-- include: cerbot.yml
+- include: certbot.yml
   become: true
   when: ansible_distribution == "Ubuntu"
   tags:
