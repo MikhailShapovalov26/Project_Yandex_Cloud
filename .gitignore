@@ -4,3 +4,4 @@
 .terraform
 *.hcl
 terraform.tfvars
+errored.tfstate

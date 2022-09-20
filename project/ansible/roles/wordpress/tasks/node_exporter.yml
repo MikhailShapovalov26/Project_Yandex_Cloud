@@ -19,13 +19,6 @@
       dest: "/tmp/"
       remote_src: yes
 
-  # - name: Update node_exporter binary
-  #   become: false
-  #   unarchive:
-  #     src: "/tmp/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
-  #     dest: "/tmp"
-  #     creates: "/tmp/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter"
-
   - name: Move node-exporter
     copy:
       src: "/tmp/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter"

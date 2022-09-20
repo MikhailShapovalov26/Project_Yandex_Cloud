@@ -1,7 +1,7 @@
-resource "yandex_compute_instance" "wd_msh762" {
+resource "yandex_compute_instance" "runner" {
   platform_id = local.web_instance_type_map[terraform.workspace]
-  name        = local.web_name_wordpress[terraform.workspace]
-  hostname    = local.web_name_wordpress[terraform.workspace]
+  name        = local.web_name_runner[terraform.workspace]
+  hostname    = local.web_name_runner[terraform.workspace]
   zone        = "ru-central1-a"
 
   resources {
@@ -18,7 +18,7 @@ resource "yandex_compute_instance" "wd_msh762" {
   network_interface {
     subnet_id  = yandex_vpc_subnet.default-nat.id
     nat        = false
-    ip_address = "192.168.120.11"
+    ip_address = "192.168.120.13"
   }
   metadata = {
     ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"

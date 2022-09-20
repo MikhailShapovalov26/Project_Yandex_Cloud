@@ -28,3 +28,6 @@
     name: nginx
     state: restarted
   become: true
+
+- name: debug ansible_hostname
+  debug: var={{ansible_hostname}}

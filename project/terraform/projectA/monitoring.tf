@@ -1,8 +1,7 @@
-resource "yandex_compute_instance" "db02" {
+resource "yandex_compute_instance" "monitoring" {
   platform_id = local.web_instance_type_map[terraform.workspace]
-  count       = local.web_count_map[terraform.workspace]
-  name        = local.name_db02_instance[terraform.workspace]
-  hostname    = local.name_db02_instance[terraform.workspace]
+  name        = local.web_name_monitoring[terraform.workspace]
+  hostname    = local.web_name_monitoring[terraform.workspace]
   zone        = "ru-central1-a"
 
   resources {
@@ -19,7 +18,7 @@ resource "yandex_compute_instance" "db02" {
   network_interface {
     subnet_id  = yandex_vpc_subnet.default-nat.id
     nat        = false
-    ip_address = "192.168.120.22"
+    ip_address = "192.168.120.30"
   }
   metadata = {
     ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"

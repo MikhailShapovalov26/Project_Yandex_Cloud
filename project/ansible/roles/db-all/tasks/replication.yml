@@ -4,13 +4,12 @@
     mode: getslave
     login_unix_socket: /run/mysqld/mysqld.sock
   ignore_errors: true
-  register: getmaster
+  register: replica
   when: inventory_hostname in groups["db-slave"]
-
 
 - name: Check primary replication status
   mysql_replication: 
-    mode: getprimary
+    mode: getmaster
     login_unix_socket: /run/mysqld/mysqld.sock
   delegate_to: "{{ mysql_replication_primary }}"
   register: primary

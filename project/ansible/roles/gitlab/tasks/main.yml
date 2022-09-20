@@ -8,23 +8,3 @@
 - include: configure.yml
   become: true
   
-
-
-
-
-# - name: Update conf gitlab
-#   template: "src=../templates/gitlab.rb dest=/etc/gitlab/gitlab.rb mode=0644"
-#   become: true
-#   notify: 
-#     - reconfigure gitlab
-#     - restart gitlab
-#   tags:
-#     - gitlab
-#     - gitlab_update
-
-# - name: reconfigure gitlab-ctl
-#   ansible.builtin.debconf:
-#     name: gitlab-ctl
-
-# - name: enable gitlab-ctl started
-#   shell: "gitlab-ctl start"

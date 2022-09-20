@@ -11,7 +11,7 @@ common_project_dir: "/mnt/project"
 gitlab_runner_package_name: "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh"
 gitlab_runner_repository_file: "/etc/apt/sources.list.d/runner_gitlab-runner.list"
 gitlab_url: "http://gitlab.msh762.ru"
-token: "wordpress" #initial_root_password
+token: "wordpress" 
 gitlab_runner_executor: docker
 gitlab_runner_docker_image: "ubuntu:latest"
 

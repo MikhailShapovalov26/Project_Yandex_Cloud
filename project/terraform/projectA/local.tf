@@ -58,18 +58,11 @@ locals {
     stage = "runner-msh762-s"
     prod  = "runner-msh762"
   }
-  web_name_grafana = {
-    stage = "grafana-msh762-s"
-    prod  = "grafana-msh762"
+  web_name_monitoring = {
+    stage = "monitoring-msh762-s"
+    prod  = "monitoring-msh762"
   }
-  web_name_prometheus = {
-    stage = "prometheus-msh762-s"
-    prod  = "prometheus-msh762"
-  }
-  web_name_altermanager = {
-    stage = "alertmanager-msh762-s"
-    prod  = "alertmanager-msh762"
-  }
+
   mysql_environment_bd = {
     stage = "PRESTABLE"
     prod  = "PRODUCTION"
