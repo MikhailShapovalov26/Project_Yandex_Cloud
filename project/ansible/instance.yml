@@ -14,13 +14,13 @@
 #      changed_when: false
 #      when: ansible_distribution == "Ubuntu"
 
-- name: install mysql 
-  hosts: db-all
-  become: yes
-  become_user: root
-  remote_user: ubuntu
-  roles:
-   - {"role": db-all, "vars_file": "group_vars/all.yml"}
+# - name: install mysql 
+#   hosts: db-all
+#   become: yes
+#   become_user: root
+#   remote_user: ubuntu
+#   roles:
+#    - {"role": db-all, "vars_file": "group_vars/all.yml"}
 
 # - name: inastalling nginx in reverce proxy 
 #   hosts: proxy
@@ -30,13 +30,13 @@
 #   roles:
 #    - {"role": reverse_proxy, "vars_file": "group_vars/all.yml"}
 
-- name: dowland and install wordpress
-  hosts: wordpress
-  become: yes
-  become_user: root
-  remote_user: ubuntu
-  roles:
-   - {"role": wordpress, "vars_file": "group_vars/all.yml"}
+# - name: dowland and install wordpress
+#   hosts: wordpress
+#   become: yes
+#   become_user: root
+#   remote_user: ubuntu
+#   roles:
+#    - {"role": wordpress, "vars_file": "group_vars/all.yml"}
 
 
 # - name: install gitlab 
@@ -55,10 +55,10 @@
 #   roles:
 #     - {"role": runner, "vars_file": "group_vars/all.yml"}
 
-# - name: install monitoring Prometheus Grafana
-#   hosts: monitoring
-#   become: yes
-#   become_user: root
-#   remote_user: ubuntu
-#   roles:
-#     - {"role": monitoring, "vars_file": "group_vars/all.yml"}
+- name: install monitoring Prometheus Grafana
+  hosts: monitoring
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  roles:
+    - {"role": monitoring, "vars_file": "group_vars/all.yml"}

@@ -32,17 +32,9 @@
       register: gitlab_runner_get_registration_status
       changed_when: no 
 
-  #   - name: register gitlab runner
-  #     command:
-  #       cmd: >
-  #         gitlab-runner register --non-interactive
-  #         --name: "{{ inventory_hostname }}"
-  #         --url "{{ gitlab_url }}"
-  #         --registration-token "{{ token }}"
-  #         --executor "{{ gitlab_runner_executor }}"
-  #         --docker-image "{{ gitlab_runner_docker_image }}"
-  # when: 
-  # - token is defined
+- name: Register GitLab runner 
+  become: true 
+  command: gitlab-runner register -n --url http://gitlab --registration-token {{ token }} --executor shell --description "Shell Runner" --tag-list deployment
 
 - name: start and enable gitlab-runner
   service:
