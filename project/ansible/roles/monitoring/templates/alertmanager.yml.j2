@@ -1,13 +1,11 @@
-global:
-route:
-  group_by: ['{{ groupId }}']
-  group_wait: 10s
-  group_interval: 10s
-  repeat_interval: 1h
-  routes:
-    - matchers:
-        - severity="critical"
-  inhibit_rules:
-    target_match: [severity="warning"]
-    equal: [alertname, service , instance]
-
+groups:
+  - name: node_exporter
+    rules:
+      - alert: PrometheusTargetMissing
+        expr: up == 0
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          summary: Prometheus target missing (instance {{ $labels.instance }})
+          description: "A Prometheus target has disappeared. An exporter might be crashed.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
