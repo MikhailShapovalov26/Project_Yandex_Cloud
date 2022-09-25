@@ -1,7 +1,7 @@
 ---
 - name: Check replica replacation status
   mysql_replication: 
-    mode: getslave
+    mode: getreplica
     login_unix_socket: /run/mysqld/mysqld.sock
   ignore_errors: true
   register: replica
@@ -9,7 +9,7 @@
 
 - name: Check primary replication status
   mysql_replication: 
-    mode: getmaster
+    mode: getprimary
     login_unix_socket: /run/mysqld/mysqld.sock
   delegate_to: "{{ mysql_replication_primary }}"
   register: primary

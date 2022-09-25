@@ -17,7 +17,7 @@ grafana_admin_password: wordpress
 #alter manager
 prometheus_alertmanager_config_file: /etc/alertmanager/alertmanager.yml
 prometheus_alertmanager_storage_path: /etc/systemd/system/
-exec_command_alter: "alertmanager --config.file=/etc/alertmanager/alertmanager.yml --storage.path=/etc/systemd/system/  $ALERTMANAGER_OPTS"
+exec_command_alter: "alertmanager --config.file=/etc/alertmanager/alertmanager.yml --log.level=debug"
 serviceNamealter: "Alertmanager Service"
 alertmanager_version: '0.24.0'
 userId: "alertmanager"

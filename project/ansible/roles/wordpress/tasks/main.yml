@@ -1,28 +1,8 @@
 ---
-- include: install.yml
-  become: true
-  when: ansible_distribution == "Ubuntu"
-  tags:
-   - install_nginx
-
-- include: node_exporter.yml
-  become: true
-  when: ansible_distribution == "Ubuntu"
-  tags:
-   - install_node_exporter
-
-- include: configuration.yml
-  become: true
-  when: ansible_distribution == "Ubuntu"
-  tags:
-   - install_nginx
-
-- include: wordpress_install.yml
-  become: true
-  when: ansible_distribution == "Ubuntu"
-  tags:
-   - install_wordpress
-
+- include_tasks: install.yml
+- include_tasks: node_exporter.yml
+- include_tasks: configuration.yml
+- include_tasks: wordpress_install.yml
 - name: restart nginx
   service:
     name: nginx

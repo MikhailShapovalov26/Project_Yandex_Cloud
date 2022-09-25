@@ -32,9 +32,16 @@
       register: gitlab_runner_get_registration_status
       changed_when: no 
 
+- name: add hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: ''
+    line: '192.168.120.12 gitlab.msh762.ru'
+    insertafter: EOF
+
 - name: Register GitLab runner 
   become: true 
-  command: gitlab-runner register -n --url http://gitlab --registration-token {{ token }} --executor shell --description "Shell Runner" --tag-list deployment
+  command: gitlab-runner register -n --url http://gitlab.msh762.ru/ --registration-token {{ token }} --executor shell --description "Shell Runner" --tag-list deployment
 
 - name: start and enable gitlab-runner
   service:

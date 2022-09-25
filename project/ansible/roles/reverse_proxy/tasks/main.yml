@@ -1,27 +1,8 @@
 ---
-- include: install.yml
-  become: true
-  when: ansible_distribution == "Ubuntu"
-  tags:
-   - install_nginx
-
-- include: node_exporter.yml
-  become: true
-  when: ansible_distribution == "Ubuntu"
-  tags:
-   - install_node_exporter
-
-- include: configuration.yml
-  become: true
-  when: ansible_distribution == "Ubuntu"
-  tags:
-   - install_nginx
-
-- include: certbot.yml
-  become: true
-  when: ansible_distribution == "Ubuntu"
-  tags:
-   - install_cerbot
+- include_tasks: install.yml
+- include_tasks: node_exporter.yml
+- include_tasks: configuration.yml
+- include_tasks: certbot.yml
 
 - name: resrat nginx
   service:

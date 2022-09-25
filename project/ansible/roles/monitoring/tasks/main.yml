@@ -1,24 +1,5 @@
 ---
-- include: node_exporter.yml
-  become: true
-  when: ansible_distribution == "Ubuntu"
-  tags:
-   - install_node_exporter_in_vm
-
-- include: prometheus_i.yml
-  become: true
-  when: ansible_distribution == "Ubuntu"
-  tags:
-   - install_prometheus
-
-- include: grafana.yml
-  become: true
-  when: ansible_distribution == "Ubuntu"
-  tags:
-   - install_grafana
-
-- include: alertmanager.yml
-  become: true
-  when: ansible_distribution == "Ubuntu"
-  tags:
-   - install_alertmanager
+- include_tasks: node_exporter.yml
+- include_tasks: prometheus_i.yml
+- include_tasks: grafana.yml
+- include_tasks: alertmanager.yml
