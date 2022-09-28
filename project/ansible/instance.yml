@@ -1,19 +1,4 @@
 ---
-# - hosts: all
-#   pre_tasks:
-#    - name: "Update Package Cache (apt/Ubuntu)"
-#      become: yes
-#      become_user: root
-#      tags: always
-#      apt:
-#        allow_unauthenticated: yes
-#        update_cache: yes
-#        autoremove: yes
-#        autoclean: yes
-#        upgrade: yes
-#      changed_when: false
-#      when: ansible_distribution == "Ubuntu"
-
 # - name: install mysql 
 #   hosts: db-all
 #   become: yes
@@ -22,38 +7,38 @@
 #   roles:
 #    - {"role": db-all, "vars_file": "group_vars/all.yml"}
 
-# - name: inastalling nginx in reverce proxy 
-#   hosts: proxy
-#   become: yes
-#   become_user: root
-#   remote_user: ubuntu
-#   roles:
-#    - {"role": reverse_proxy, "vars_file": "group_vars/all.yml"}
+- name: inastalling nginx in reverce proxy 
+  hosts: proxy
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  roles:
+   - {"role": reverse_proxy, "vars_file": "group_vars/all.yml"}
 
-# - name: dowland and install wordpress
-#   hosts: wordpress
-#   become: yes
-#   become_user: root
-#   remote_user: ubuntu
-#   roles:
-#    - {"role": wordpress, "vars_file": "group_vars/all.yml"}
+- name: dowland and install wordpress
+  hosts: wordpress
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  roles:
+   - {"role": wordpress, "vars_file": "group_vars/all.yml"}
 
 
-# - name: install gitlab 
-#   hosts: gitlab
-#   become: yes
-#   become_user: root
-#   remote_user: ubuntu
-#   roles:
-#     - {"role": gitlab, "vars_file": "group_vars/all.yml"}
+- name: install gitlab 
+  hosts: gitlab
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  roles:
+    - {"role": gitlab, "vars_file": "group_vars/all.yml"}
 
-# - name: install runner 
-#   hosts: runner
-#   become: yes
-#   become_user: root
-#   remote_user: ubuntu
-#   roles:
-#     - {"role": runner, "vars_file": "group_vars/all.yml"}
+- name: install runner 
+  hosts: runner
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  roles:
+    - {"role": runner, "vars_file": "group_vars/all.yml"}
 
 - name: install monitoring Prometheus Grafana
   hosts: monitoring

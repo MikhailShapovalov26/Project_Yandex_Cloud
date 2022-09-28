@@ -11,7 +11,12 @@
     'certbot --nginx
     --noninteractive
     --agree-tos
-    --test-cert
     --redirect
     --email {{ email_host }}
-    -d  {{ http_host }},www.{{ http_host }}'
+    --expand
+    -d  {{ http_host }},www.{{ http_host }}
+    -d gitlab.{{ http_host }}
+    -d grafana.{{ http_host }}
+    -d prometheus.{{ http_host }}
+    -d alertmanager.{{ http_host }}'
+

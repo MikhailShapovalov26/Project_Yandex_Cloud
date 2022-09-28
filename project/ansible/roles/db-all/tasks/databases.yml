@@ -16,7 +16,7 @@
 - name: Restart
   service:
     name=mysql
-    state=started
+    state=restarted
   become: true
 
 - name: creating db 

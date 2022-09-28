@@ -24,6 +24,12 @@ define( 'NONCE_SALT',       '%)N@XUxYz6^V.QLe:U.rBixr$oa8Wfoi}tQU~;nhV&t&Pfz@fwu
 
 define('FORCE_SSL_ADMIN', true);
 
+if($_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https'){
+
+    $_SERVER['HTTPS'] = 'on';
+    $_SERVER['SERVER_PORT'] = 443;
+}
+
 define( 'WP_DEBUG', false );
 
 

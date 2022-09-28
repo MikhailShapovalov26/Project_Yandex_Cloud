@@ -34,9 +34,9 @@
     src: sample_v2.yml.j2
     dest: /etc/grafana/provisioning/dashboards/sample.yml
 
-- name: start service grafana-server
+- name: start service grafana-server # 9893
   get_url:
-    url: https://grafana.com/api/dashboards/5955/revisions/1/download
+    url: https://grafana.com/api/dashboards/9893/revisions/1/download
     dest: /etc/grafana/provisioning/dashboards/
 
 - name: start service grafana-server

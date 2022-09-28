@@ -6,11 +6,11 @@ locals {
       public = true,
       records = [
         { name = "", type = "A", ttl = 200, records = [local.Foo,]},
-        { name = "www", type = "CNAME", ttl = 200, records = ["msh762.ru."]},
-        { name = "gitlab", type = "CNAME", ttl = 200, records = ["msh762.ru."] },
-        { name = "grafana", type = "CNAME", ttl = 200, records = ["msh762.ru."] },
-        { name = "prometheus", type = "CNAME", ttl = 200, records = ["msh762.ru."] },
-        { name = "alertmanager", type = "CNAME", ttl = 200, records = ["msh762.ru."] },
+        { name = "www", type = "A", ttl = 200, records = [local.Foo,]},
+        { name = "gitlab", type = "A", ttl = 200, records = [local.Foo,] },
+        { name = "grafana", type = "A", ttl = 200, records = [local.Foo,] },
+        { name = "prometheus", type = "A", ttl = 200, records = [local.Foo,] },
+        { name = "alertmanager", type = "A", ttl = 200, records = [local.Foo,] },
       ]
     }
   }

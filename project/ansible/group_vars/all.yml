@@ -18,6 +18,7 @@ gitlab_runner_docker_image: "ubuntu:latest"
 #MySQL Settings
 mysql_root_password: "wordpress"
 mysql_db: "wordpress"
+mysql_bind_address: "0.0.0.0"
 backupdir: "/tmp"
 mysql_replication_primary: "db-master-01"
 mysql_replication_replica: "db-slave-01"

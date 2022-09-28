@@ -1,7 +1,7 @@
 alerting:
   alertmanagers:
     - static_configs:
-      - targets: ['localhost:9093']
+      - targets: ['localhost:9094']
 
 rule_files:
   - rules.yml
@@ -13,6 +13,6 @@ scrape_configs:
     static_configs:
        - targets: 
           - localhost:9100
-          - db01-msh762:9100
+          - db-master-01:9100
           - proxy-msh762:9100
           - msh762:9100
