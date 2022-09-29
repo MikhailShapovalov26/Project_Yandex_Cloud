@@ -1,0 +1,26 @@
+stages:
+   - build
+build:
+  stage: build
+  before_script:
+    - touch index.php
+    - echo "<?php phpinfo(); ?>" > index.php
+    - eval "$(ssh-agent -s)"
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -H $HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+
+  script:
+    - echo $HOST
+    - echo $USER
+    - ssh  -o StrictHostKeyChecking=no $USER@$HOST " sudo systemctl stop nginx"
+    - ssh  -o StrictHostKeyChecking=no $USER@$HOST " sudo systemctl stop php7.4-fpm"
+    - ssh  -o StrictHostKeyChecking=no $USER@$HOST " sudo rm -rf /var/www/msh762.ru/wordpress/index.php"
+    - scp  -o StrictHostKeyChecking=no -P22 -r index.php "$USER"@"$HOST":/tmp
+    - ssh  -o StrictHostKeyChecking=no $USER@$HOST " sudo cp /tmp/index.php /var/www/msh762.ru/wordpress"
+    - ssh  -o StrictHostKeyChecking=no $USER@$HOST " sudo systemctl start nginx"
+    - ssh  -o StrictHostKeyChecking=no $USER@$HOST " sudo systemctl start php7.4-fpm"
+

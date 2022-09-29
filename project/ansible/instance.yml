@@ -1,11 +1,11 @@
 ---
-# - name: install mysql 
-#   hosts: db-all
-#   become: yes
-#   become_user: root
-#   remote_user: ubuntu
-#   roles:
-#    - {"role": db-all, "vars_file": "group_vars/all.yml"}
+- name: install mysql 
+  hosts: db-all
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  roles:
+   - {"role": db-all, "vars_file": "group_vars/all.yml"}
 
 - name: inastalling nginx in reverce proxy 
   hosts: proxy
