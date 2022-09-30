@@ -1,4 +1,35 @@
-## кластер
+# DevOps-инженер Yandex cloud
+## 1.
+Вся инфраструктуру в YC при помощью [terraform](./project/terraform/)
+Структура ДНС выглядить следующим образом 
+![DNZ записи](./project/img/DNS_A.png)
+
+</br>Вся привязка осуществляется с помощью [модуля](./project/terraform/modules/yandex_dns_zone/)
+
+Настройки workspace
+
+    terraform workspace list                
+    default
+    * prod
+    stage
+Остальные моменты по терраформ можно посмотреть в каталоге с проектом [terraform](./project/terraform/projectA/)
+
+## Ansible в проекте
+
+Данный пункт занимает львиную долу в проекте. 90% проекта это ansible и конфиги для служб
+Все файлы относящие к [ansible](./project/ansible/) можно посмотреть в каталоге
+### Установка NGINX Cerbot
+Мной были написанна роль для установки NGINX как reverse proxy с поддержкой TLS для обеспечения безопасности.
+Саму роль можно посмотреть [reverse proxy](/project/ansible/roles/reverse_proxy/tasks/main.yml)
+
+## Настройка кластера MYSQL
+Далее была написана роль для настройки и сборке кластера MYSQL, где был 1 master и 1 slave. Ниже можно будет посмотреть вывод команды SHOW SKAVE STATUS\G, а также можно посмотреть роль для настройки и установки данного кластере. Была написана одна роль, для 2-х виртуальных машин, использовалось условие where 
+
+    when: inventory_hostname in groups["db-master"]
+
+[Сама роль](./project/ansible/roles/db-all/tasks/main.yml)
+
+Вывод для проверки на slave
 <details><summary>SHOW SLAVE STATUS\G</summary>
 
     SHOW SLAVE STATUS\G
@@ -65,3 +96,44 @@
                 Network_Namespace: 
     1 row in set, 1 warning (0.01 sec)
 </details>
+
+## Установка Wordpress
+
+Для установки и настройки я использовал связку LEMP PHP7.4-FPM NGINX и сам WORDPRESS
+Роль для развертывания и установки данных контонетов [тут](./project/ansible/roles/wordpress/tasks/main.yml)
+
+Скриншоты для проверки 
+ ![1](./project/img/wordpress_start.png)
+ ![2](./project/img/wordpress_start_b.png)
+ И сам сертификат, который мы установили на reverce proxy 
+ ![3](./project/img/wordpress_start_ssl.png)
+
+ ## Установка Gitlab and Gitlab Runner
+
+ [Установка Gitlab выполнена с помощью роли](./project/ansible/roles/gitlab/tasks/main.yml)
+
+ [Установка Gitlab Runner выполнена из роли](./project/ansible/roles/runner/tasks/main.yml)
+
+Результат выполнения двух ролей 
+![1](./project/img/gitlab.msh762.ru.png)
+
+Так же мной был написан [pipeline](./.gitlab-ci.yml) CICD 
+На скриншоте видно, что CI CD отработал и заменил index.php
+![3](./project/img/cicd_php.png)
+
+## Установка и настройка мониторинга
+
+Ansible роль для установки [Prometheus](./project/ansible/roles/monitoring/tasks/prometheus_i.yml), [Alert Manager](./project/ansible/roles/monitoring/tasks/alertmanager.yml) и [Grafana](./project/ansible/roles/monitoring/tasks/grafana.yml)
+
+Скриншоты работы</br>
+Метрики с reverse proxy
+
+![1](./project/img/grafana_proxy.png) 
+
+Метрики с master db MYSQL
+
+![1](./project/img/grafana_MYSQL_master.png)
+
+![1](./project/img/prometheus.msh762.ru.png)
+
+![1](./project/img/alertmanager.msh762.ru.png)
