@@ -20,10 +20,14 @@
 Все файлы относящие к [ansible](./project/ansible/) можно посмотреть в каталоге
 ### Установка NGINX Cerbot
 Мной были написанна роль для установки NGINX как reverse proxy с поддержкой TLS для обеспечения безопасности.
-Саму роль можно посмотреть [reverse proxy](/project/ansible/roles/reverse_proxy/tasks/main.yml)
+Саму роль можно посмотреть
+
+[reverse proxy](/project/ansible/roles/reverse_proxy/tasks/main.yml)
+
+[cerbot](./project/ansible/roles/reverse_proxy/tasks/certbot.yml)
 
 ## Настройка кластера MYSQL
-Далее была написана роль для настройки и сборке кластера MYSQL, где был 1 master и 1 slave. Ниже можно будет посмотреть вывод команды SHOW SKAVE STATUS\G, а также можно посмотреть роль для настройки и установки данного кластере. Была написана одна роль, для 2-х виртуальных машин, использовалось условие where 
+Далее была написана роль для настройки и сборке кластера MYSQL, где был 1 master и 1 slave. Ниже можно будет посмотреть вывод команды SHOW SKAVE STATUS\G, а также можно посмотреть роль для настройки и установки данного кластере. Была написана одна роль, для 2-х виртуальных машин, использовалось условие when
 
     when: inventory_hostname in groups["db-master"]
 
@@ -100,12 +104,14 @@
 ## Установка Wordpress
 
 Для установки и настройки я использовал связку LEMP PHP7.4-FPM NGINX и сам WORDPRESS
-Роль для развертывания и установки данных контонетов [тут](./project/ansible/roles/wordpress/tasks/main.yml)
+Роль для развертывания и установки данных компонентов [тут](./project/ansible/roles/wordpress/tasks/main.yml)
 
 Скриншоты для проверки 
  ![1](./project/img/wordpress_start.png)
  ![2](./project/img/wordpress_start_b.png)
- И сам сертификат, который мы установили на reverce proxy 
+
+Сертификат
+
  ![3](./project/img/wordpress_start_ssl.png)
 
  ## Установка Gitlab and Gitlab Runner
@@ -115,10 +121,12 @@
  [Установка Gitlab Runner выполнена из роли](./project/ansible/roles/runner/tasks/main.yml)
 
 Результат выполнения двух ролей 
+
 ![1](./project/img/gitlab.msh762.ru.png)
 
 Так же мной был написан [pipeline](./.gitlab-ci.yml) CICD 
 На скриншоте видно, что CI CD отработал и заменил index.php
+
 ![3](./project/img/cicd_php.png)
 
 ## Установка и настройка мониторинга
