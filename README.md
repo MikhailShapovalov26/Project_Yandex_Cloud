@@ -1,7 +1,7 @@
 # DevOps-инженер Yandex cloud
 ## 1.
-Вся инфраструктуру в YC при помощью [terraform](./project/terraform/)
-Структура ДНС выглядить следующим образом 
+Вся инфраструктура в YC разварачивается  с помощью [terraform](./project/terraform/)
+Структура ДНС-записи выглядить следующим образом 
 ![DNZ записи](./project/img/DNS_A.png)
 
 </br>Вся привязка осуществляется с помощью [модуля](./project/terraform/modules/yandex_dns_zone/)
@@ -19,15 +19,15 @@
 Данный пункт занимает львиную долу в проекте. 90% проекта это ansible и конфиги для служб
 Все файлы относящие к [ansible](./project/ansible/) можно посмотреть в каталоге
 ### Установка NGINX Cerbot
-Мной были написанна роль для установки NGINX как reverse proxy с поддержкой TLS для обеспечения безопасности.
+Мной была написанна роль для установки NGINX как reverse proxy с поддержкой TLS для обеспечения безопасности.
 Саму роль можно посмотреть
 
 [reverse proxy](/project/ansible/roles/reverse_proxy/tasks/main.yml)
 
-[cerbot](./project/ansible/roles/reverse_proxy/tasks/certbot.yml)
+[certbot](./project/ansible/roles/reverse_proxy/tasks/certbot.yml)
 
 ## Настройка кластера MYSQL
-Далее была написана роль для настройки и сборке кластера MYSQL, где был 1 master и 1 slave. Ниже можно будет посмотреть вывод команды SHOW SKAVE STATUS\G, а также можно посмотреть роль для настройки и установки данного кластере. Была написана одна роль, для 2-х виртуальных машин, использовалось условие when
+Далее была написана роль для настройки и сборке кластера MYSQL, где был 1 master и 1 slave. Ниже можно будет посмотреть вывод команды SHOW SLAVE STATUS\G, а также можно посмотреть роль для настройки и установки данного кластере. Была написана одна роль, для 2-х виртуальных машин, использовалось условие when
 
     when: inventory_hostname in groups["db-master"]
 
